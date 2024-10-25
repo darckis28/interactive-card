@@ -50,35 +50,38 @@ import Header from "@/components/Header.astro";
   </form>
 </Layout>
 <script>
-  const form = document.getElementById("form");
-  const cardName = document.getElementById("cardName");
-  const cardNumber = document.getElementById("cardNumber");
-  const month = document.getElementById("month");
-  const year = document.getElementById("year");
-  const cvc = document.getElementById("cvc");
+  const form = document.querySelector("#form");
+  const cardName = document.querySelector("#cardName");
+  const cardNumber = document.querySelector("#cardNumber");
+  const month = document.querySelector("#month");
+  const year = document.querySelector("#year");
+  const cvc = document.querySelector("#cvc");
 
-  cardNumber?.addEventListener("input", (e: any) => {
-    const numberTarjed = document.getElementById("numberTarjed");
-    const value = e.target.value;
+  cardNumber?.addEventListener("input", (e: Event) => {
+    const numberTarjed = document.querySelector("#numberTarjed");
+    const target = e.target as HTMLInputElement;
+    const value = target.value;
     const formattedValue = value.replace(/\D/g, "").replace(/(\d{4})/g, "$1 ");
-    e.target.value = formattedValue;
-    numberTarjed.innerText = formattedValue;
+    target.value = formattedValue;
+    if (numberTarjed) {
+      numberTarjed.innerHTML = formattedValue;
+    }
   });
 
-  insertCard(cardName, nameTarjed);
-  insertCard(month, cardMonth);
-  insertCard(year, cardYear);
-  insertCard(cvc, cardCvc);
+  insertCard(cardName, "nameTarjed");
+  insertCard(month, "cardMonth");
+  insertCard(year, "cardYear");
+  insertCard(cvc, "cardCvc");
 
   form?.addEventListener("submit", (e) => {
     e.preventDefault();
   });
 
-  function insertCard(input, cardcontent) {
+  function insertCard(input: any, cardcontent: any) {
     input?.addEventListener("input", (e: any) => {
-      const nameTarjed = document.getElementById("nameTarjed");
       const value = e.target.value;
-      cardcontent.innerText = value;
+      const content = document.querySelector(`#${cardcontent}`);
+      content.innerHTML = value;
     });
   }
 </script>

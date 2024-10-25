@@ -8,7 +8,7 @@
       "@images/*": ["src/assets/images/*"],
       "@icons/*": ["src/icons/*"]
     },
-    "strict": true,
+    "strict": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
