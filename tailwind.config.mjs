@@ -10,6 +10,16 @@ export default {
       "very-dark-violet": "hsl(278, 68%, 11%)",
       white: "hsl(0, 0%, 100%)",
     },
+    backgroundImage: {
+      movile: "url('./src/assets/images/bg-main-mobile.png')",
+      desktop: "url('./src/assets/images/bg-main-desktop.png')",
+      backgroundImage: {
+        movile: "url('./src/assets/images/bg-main-mobile.png')",
+        desktop: "url('./src/assets/images/bg-main-desktop.png')",
+        fondo:
+          "linear-gradient(to right, hsl(249, 99%, 64%), hsl(278, 94%, 30%))",
+      },
+    },
     extend: {
       fontFamily: {
         SpaceGrotesk: ["Space-Grotesk", "sans-serif"],
