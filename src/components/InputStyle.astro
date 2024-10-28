@@ -1,18 +1,23 @@
 ---
 interface Props {
   placeholder: string;
+  name: string;
   limit: number;
-  id: string;
+  error: string;
 }
-const { placeholder, limit, id } = Astro.props;
+let { placeholder, error, limit, name } = Astro.props;
 ---
 
-<div class="mb-4">
+<div class="">
   <input
-    id={id}
     type="text"
     placeholder={placeholder}
-    class="w-full px-4 py-1 font-semibold border rounded-md outline-none border-inp border-dark-grayish-violet text-normal text-dark-grayish-violet"
+    class=` w-full px-4 py-1 font-semibold border rounded-md outline-none border-inp border-dark-grayish-violet text-normal text-dark-grayish-violet`
     maxlength={limit}
+    name={name}
   />
+  />
+  <p class=` error-${name} hidden text-xs font-semibold text-red`>
+    {error}
+  </p>
 </div>

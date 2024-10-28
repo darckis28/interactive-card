@@ -1,0 +1,59 @@
+---
+import Button from "./Button.astro";
+import InputStyle from "./InputStyle.astro";
+import TitleInput from "./TitleInput.astro";
+---
+
+<form id="form" class="max-w-[380px] px-5 pt-20 m-auto">
+  <div>
+    <TitleInput title="CARDHOLDER NAME" />
+    <InputStyle
+      placeholder="e.g. Jane Appleseed"
+      limit={20}
+      error="The field must contain more than 4 digits"
+      name="nameCard"
+    />
+  </div>
+  <div>
+    <TitleInput title="CARD NUMBER" />
+    <InputStyle
+      placeholder="e.g. 1234 5678 9123 0000"
+      limit={16}
+      error="The field must not contain letters"
+      name="numberCard"
+    />
+  </div>
+
+  <div class="flex gap-4">
+    <div class="flex-1">
+      <TitleInput title="EXP.DATE (MM/YY)" />
+
+      <div class="flex gap-2">
+        <InputStyle
+          placeholder="MM"
+          limit={2}
+          error="this field is needed"
+          name="mounth"
+        />
+
+        <InputStyle
+          placeholder="YY"
+          limit={2}
+          error="this field is needed"
+          name="years"
+        />
+      </div>
+    </div>
+    <div class="flex-1">
+      <TitleInput title="CVC" />
+      <InputStyle
+        placeholder="e.g. 123"
+        limit={3}
+        error="this field is needed"
+        name="cvc"
+      />
+    </div>
+  </div>
+
+  <Button text="Confirm" />
+</form>

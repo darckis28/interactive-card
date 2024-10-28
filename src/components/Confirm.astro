@@ -1,0 +1,17 @@
+---
+import IconComplete from "@/icons/IconComplete.astro";
+import Button from "./Button.astro";
+---
+
+<div
+  id="confirmation"
+  class="hidden pt-20 px-8 justify-center flex-col items-center gap-2 md:w-80 m-auto">
+  <IconComplete />
+  <h2 class="text-very-dark-violet text-2xl tracking-widest font-medium">
+    THANK YOU!
+  </h2>
+  <p class="text-dark-grayish-violet text-sm font-bold">
+    We've added your card details
+  </p>
+  <Button text="Continue" id="buttonReset" />
+</div>

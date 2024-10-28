@@ -1,87 +1,120 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import InputStyle from "@components/InputStyle.astro";
-import TitleInput from "@/components/TitleInput.astro";
 import Header from "@/components/Header.astro";
+import Form from "@/components/Form.astro";
+import Confirm from "@/components/Confirm.astro";
+const confirmCard = false;
 ---
 
 <Layout title="Card Interactive">
   <Header />
-  <form id="form" class="grid w-full px-5 pt-20 place-items-center md:h-screen">
-    <div class="mx-auto md:w-80">
-      <div>
-        <TitleInput title="CARDHOLDER NAME" />
-        <InputStyle
-          placeholder="e.g. Jane Appleseed"
-          limit={20}
-          id="cardName"
-        />
-      </div>
-      <div>
-        <TitleInput title="CARD NUMBER" />
-        <InputStyle
-          placeholder="e.g. 1234 5678 9123 0000"
-          limit={19}
-          id="cardNumber"
-        />
-      </div>
-
-      <div class="flex items-center gap-4 w-100">
-        <div class="flex-1">
-          <TitleInput title="EXP.DATE (MM/YY)" />
-
-          <div class="flex gap-2">
-            <div><InputStyle placeholder="MM" limit={2} id="month" /></div>
-            <div>
-              <InputStyle placeholder="YY" limit={2} id="year" />
-            </div>
-          </div>
-        </div>
-        <div class="flex-1">
-          <TitleInput title="CVC" />
-          <InputStyle placeholder="e.g. 123" limit={3} id="cvc" />
-        </div>
-      </div>
-      <button
-        class="w-full py-3 my-8 rounded-lg hover:contrast-150 bg-very-dark-violet"
-        >Confirm</button
-      >
-    </div>
-  </form>
+  <Confirm />
+  <Form />
 </Layout>
+
 <script>
   const form = document.querySelector("#form");
-  const cardName = document.querySelector("#cardName");
-  const cardNumber = document.querySelector("#cardNumber");
-  const month = document.querySelector("#month");
-  const year = document.querySelector("#year");
-  const cvc = document.querySelector("#cvc");
+  const inputs = form?.querySelectorAll("input");
+  const buttonReset = document.querySelector("#buttonReset");
+  const confirmation = document.querySelector("#confirmation");
 
-  cardNumber?.addEventListener("input", (e: Event) => {
-    const numberTarjed = document.querySelector("#numberTarjed");
-    const target = e.target as HTMLInputElement;
-    const value = target.value;
-    const formattedValue = value.replace(/\D/g, "").replace(/(\d{4})/g, "$1 ");
-    target.value = formattedValue;
-    if (numberTarjed) {
-      numberTarjed.innerHTML = formattedValue;
+  const nameTarjed = document.querySelector("#nameTarjed"),
+    numberTarjed = document.querySelector("#numberTarjed"),
+    mounth = document.querySelector("#cardMounth"),
+    years = document.querySelector("#cardYears"),
+    cvc = document.querySelector("#cardCvc");
+
+  const validateRegex = {
+    nameCard: /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{5,}$$/,
+    numberCard: /^\d{1,16}$$/,
+    mounth: /^(0[1-9]|1[0-2])$/,
+    years: /^\d{2}$/,
+    cvc: /^\d{3}$/,
+  };
+  let confirmValit = {
+    nameCard: false,
+    numberCard: false,
+    mounth: false,
+    years: false,
+    cvc: false,
+  };
+  const validateInput = (e) => {
+    const value = e.target.value;
+    const nameInput = e.target.name;
+    switch (nameInput) {
+      case "nameCard":
+        validateInputAll(value, validateRegex, e.target);
+        nameTarjed.textContent = value;
+        break;
+      case "numberCard":
+        validateInputAll(value, validateRegex, e.target);
+        const resultado = value.replace(/(.{4})/g, "$1 ");
+        numberTarjed.textContent = resultado;
+
+        break;
+      case "mounth":
+        validateInputAll(value, validateRegex, e.target);
+        mounth.textContent = value;
+
+        break;
+      case "years":
+        validateInputAll(value, validateRegex, e.target);
+        years.textContent = value;
+
+        break;
+      case "cvc":
+        validateInputAll(value, validateRegex, e.target);
+        cvc.textContent = value;
+        break;
     }
-  });
+  };
 
-  insertCard(cardName, "nameTarjed");
-  insertCard(month, "cardMonth");
-  insertCard(year, "cardYear");
-  insertCard(cvc, "cardCvc");
+  const validateInputAll = (value, regex, input) => {
+    if (regex[input.name].test(value)) {
+      input.classList.remove("border-red");
+      document
+        .querySelector(`.error-${input.name}`)
+        .classList.replace("block", "hidden");
+      confirmValit[input.name] = true;
+    } else {
+      input.classList.add("border-red");
+      document
+        .querySelector(`.error-${input.name}`)
+        .classList.replace("hidden", "block");
+      confirmValit[input.name] = false;
+    }
+  };
+
+  inputs?.forEach((input) => {
+    input.addEventListener("keyup", validateInput);
+    input.addEventListener("blur", validateInput);
+  });
 
   form?.addEventListener("submit", (e) => {
     e.preventDefault();
+    if (
+      confirmValit.nameCard &&
+      confirmValit.numberCard &&
+      confirmValit.mounth &&
+      confirmValit.years &&
+      confirmValit.cvc
+    ) {
+      form.classList.add("hidden");
+      confirmation.classList.replace("hidden", "flex");
+    }
+    return;
   });
 
-  function insertCard(input: any, cardcontent: any) {
-    input?.addEventListener("input", (e: any) => {
-      const value = e.target.value;
-      const content = document.querySelector(`#${cardcontent}`);
-      content.innerHTML = value;
+  buttonReset?.addEventListener("click", () => {
+    inputs?.forEach((input) => {
+      input.value = "";
     });
-  }
+    nameTarjed.textContent = "Jane Appleseed";
+    numberTarjed.textContent = "0000 0000 0000 0000";
+    mounth.textContent = "00";
+    years.textContent = "00";
+    cvc.textContent = "000";
+    confirmation.classList.replace("flex", "hidden");
+    form.classList.remove("hidden");
+  });
 </script>

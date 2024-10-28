@@ -1,0 +1,12 @@
+---
+interface Props {
+  text: string;
+  id?: string;
+}
+const { text, id } = Astro.props;
+---
+
+<button
+  class="w-full py-3 my-8 rounded-lg hover:contrast-150 bg-very-dark-violet"
+  id={id}>{text}</button
+>
