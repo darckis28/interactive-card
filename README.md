@@ -55,4 +55,4 @@ All commands are run from the root of the project, from a terminal:
 
 ## DEMO - lINK:
 
-    [![link 🔗](https://card-interactives.netlify.app/)](https://card-interactives.netlify.app/)
+[![link 🔗](https://card-interactives.netlify.app/)](https://card-interactives.netlify.app/)
